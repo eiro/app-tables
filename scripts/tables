@@ -1,0 +1,18 @@
+#! /usr/bin/perl
+use Modern::Perl;
+use App::Tables;
+
+my $app = App::Tables::init @ARGV;
+
+App::Tables::Provider->new
+( $$app{from}
+)
+
+
+
+
+
+
+
+
+
