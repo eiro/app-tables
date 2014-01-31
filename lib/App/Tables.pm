@@ -1,10 +1,48 @@
-package App::Tables::As::Dir;
+package App::Tables::Provider::xls;
+use Modern::Perl;
+use Data::Table::Excel qw< tables2xls xls2tables >;
+
+sub new { bless pop, __PACKAGE__ }
 
 sub read {
+    my ( $self ) = @_;
+    my ( $data, $headers ) = xls2tables $$self{base};
+    my %whole;
+    @whole{@$headers} = @$data;
+    \%whole;
 }
 
+sub write {
+    my ( $self, $data ) = @_;
+    my @headers = keys %$data;
+    my @data = map { $$data{$_} } @headers;
+    tables2xls( $$self{base}, \@data, \@headers );
+}
+
+package App::Tables::Provider::dir;
+use Modern::Perl;
+use IO::All;
+
+sub new { bless pop, __PACKAGE__ }
+
+sub read {
+    my ( $self ) = @_;
+    my @headers;
+    my @data = map {
+        push @headers, m{ [^/]+ $ }; # basename
+        Data::Table::fromCSV $_ 
+    } glob "$$self{base}/*";
+    my %whole;
+    @whole{ @headers } = @data;
+    \%whole
+}
 
 sub write {
+    my ( $self, $data ) = @_;
+    map { -d $_ or io($_)->mkpath } $$self{base};
+    while ( my ( $name, $sheet) = each $data ) {
+        io( "$$self{base}/$name" ) < $sheet->csv 
+    }
 }
 
 package App::Tables;
@@ -69,6 +107,12 @@ sub init {
             if $_ eq $conf{to}{base}
     } $conf{from}{base};
     \%conf
+}
+
+sub provider {
+    my $spec = shift;
+    my $provider = "App::Tables::Provider::$$spec{type}";
+    $provider->new( $spec )
 }
 
 
