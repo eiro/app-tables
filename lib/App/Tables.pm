@@ -1,12 +1,23 @@
 package App::Tables::Provider::xls;
 use Modern::Perl;
-use Data::Table::Excel qw< tables2xls xls2tables >;
+require Data::Table::Excel;
 
-sub new { bless pop, __PACKAGE__ }
+# qw< tables2xls xls2tables >;
+# qw< tables2xls xls2tables >;
+# use Data::Table::Excel qw< tables2xls xls2tables >;
+# use Modern::Perl;
+
+sub new {
+    my $self = pop;
+    state $io =
+    { reader => Data::Table::Excel->can('xls2tables')
+    , writer => Data::Table::Excel->can('tables2xls') }; 
+    bless { %$self, %$io } , __PACKAGE__;
+}
 
 sub read {
     my ( $self ) = @_;
-    my ( $data, $headers ) = xls2tables $$self{base};
+    my ( $data, $headers ) = $self->{reader}( $$self{base} );
     my %whole;
     @whole{@$headers} = @$data;
     \%whole;
@@ -15,8 +26,22 @@ sub read {
 sub write {
     my ( $self, $data ) = @_;
     my @headers = keys %$data;
-    my @data = map { $$data{$_} } @headers;
-    tables2xls( $$self{base}, \@data, \@headers );
+    my @data = map { $$data{$_} } @headers; 
+    $self->{writer}( $$self{base}, \@data, \@headers );
+} 
+
+package App::Tables::Provider::xlsx;
+require Data::Table::Excel;
+use Modern::Perl;
+our @ISA = 'App::Tables::Provider::xls'; 
+# use parent 'App::Tables::Provider::xls';
+
+sub new {
+    my $self = pop;
+    state $io =
+    { reader => Data::Table::Excel->can('xlsx2tables')
+    , writer => Data::Table::Excel->can('tables2xlsx') }; 
+    bless { %$self, %$io } , __PACKAGE__;
 }
 
 package App::Tables::Provider::dir;
@@ -29,7 +54,7 @@ sub read {
     my ( $self ) = @_;
     my @headers;
     my @data = map {
-        push @headers, m{ [^/]+ $ }; # basename
+        push @headers, m{ ([^/]+) $ }x; # basename
         Data::Table::fromCSV $_ 
     } glob "$$self{base}/*";
     my %whole;
@@ -46,7 +71,8 @@ sub write {
 }
 
 package App::Tables;
-# ABSTRACT: manipulation of tables from any sources  
+# ABSTRACT: manipulation of tables from any sources 
+our $VERSION = '0.1';
 
 use Modern::Perl;
 use Exporter 'import';
