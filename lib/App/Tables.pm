@@ -102,13 +102,10 @@ sub extension_of {
 }
 
 sub _file_spec {
-    my ( $desc, $data, $type ) = @_;
-
-    $data or die "no data for $desc";
-
-    for ( $type ||= extension_of($data) || 'dir' ) {
-        $_ = 'dir' if  $_ eq '/'
-    }
+    my ( $data, $type ) = @_;
+    defined $data or die "no data";
+    map { $_ eq '/' and $_ = 'dir' }
+        $type ||= extension_of($data) || 'dir';
 
     { base => $data
     , type => $type }
@@ -117,19 +114,17 @@ sub _file_spec {
 
 sub init {
     my %args = @_ ? @_ : @ARGV;
-
     my %conf = map {
         $args{$_}
         ? ( $_ => [ split /,/, $args{$_} ] )
         : ()
     } qw< can >;
+
+    map { die "no $_" unless $args{$_} }
+        qw< from to >;
+
     $conf{from} = _file_spec input  => @args{qw< from is >};
     $conf{to}   = _file_spec output => @args{qw< to will >};
-
-    map {
-        die "overwrite $_"
-            if $_ eq $conf{to}{base}
-    } $conf{from}{base};
     \%conf
 }
 
