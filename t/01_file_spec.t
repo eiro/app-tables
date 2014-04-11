@@ -1,7 +1,7 @@
 use Modern::Perl;
 use YAML;
 use App::Tables;
-use Test::More;
+use Test::More qw( tests 3 );
 
 for
 (   [ "guess xls type from extension"
@@ -20,8 +20,6 @@ for
     my ( $desc, $args, $expected ) = @$_;
     my $got = App::Tables::_file_spec @$args;
     is_deeply $got, $expected, $desc;
-} 
+}
 
-done_testing;
-
-
+# done_testing;
