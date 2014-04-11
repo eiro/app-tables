@@ -123,8 +123,8 @@ sub init {
     map { die "no $_" unless $args{$_} }
         qw< from to >;
 
-    $conf{from} = _file_spec input  => @args{qw< from is >};
-    $conf{to}   = _file_spec output => @args{qw< to will >};
+    $conf{from} = _file_spec @args{qw< from is >};
+    $conf{to}   = _file_spec @args{qw< to will >};
     \%conf
 }
 
@@ -133,6 +133,5 @@ sub provider {
     my $provider = "App::Tables::Provider::$$spec{type}";
     $provider->new( $spec )
 }
-
 
 1;

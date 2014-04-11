@@ -5,15 +5,15 @@ use Test::More qw( tests 3 );
 
 for
 (   [ "guess xls type from extension"
-    , [ qw< testing foo.xls >        ]
+    , [ qw< foo.xls >        ]
     , { qw< base foo.xls type xls >  } ]
 
 ,   [ "type option confirms extension"
-    , [ qw< testing foo.xls xls >    ]
+    , [ qw< foo.xls xls >    ]
     , { qw< base foo.xls type xls >  } ]
 
 ,   [ "type option infirms extension"
-    , [ qw< testing foo.xls / >      ]
+    , [ qw< foo.xls / >      ]
     , { qw< base foo.xls type dir >  } ]
 
 ) {
