@@ -66,7 +66,7 @@ sub write {
     my ( $self, $data ) = @_;
     map { -d $_ or io($_)->mkpath } $$self{base};
     while ( my ( $name, $sheet) = each $data ) {
-        io( "$$self{base}/$name" ) < $sheet->tsv 
+        io( "$$self{base}/$name" ) < $sheet->tsv(0);
     }
 }
 
