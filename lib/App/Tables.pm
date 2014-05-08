@@ -1,6 +1,6 @@
 package App::Tables::Provider::xls;
 use Modern::Perl;
-require ExcelTable;
+require App::Tables::Excel;
  
 =head1 TODO
 
@@ -23,7 +23,7 @@ sub new {
     my $self = pop;
     state $io =
     { reader => sub {
-            ExcelTable::tables_from_file
+            App::Tables::Excel::tables_from_file
             ( (shift)
             , qw( format 2003 headers_are built ))
         }
@@ -56,7 +56,7 @@ sub new {
     my $self = pop;
     state $io =
     { reader => sub {
-            ExcelTable::tables_from_file
+            App::Tables::Excel::tables_from_file
             ( (shift)
             , qw( format 2007 headers_are built ))
         }
@@ -92,7 +92,7 @@ sub write {
 
 package App::Tables;
 # ABSTRACT: manipulation of tables from any sources 
-our $VERSION = '0.3';
+our $VERSION = '0.4';
 
 use Modern::Perl;
 use Exporter 'import';

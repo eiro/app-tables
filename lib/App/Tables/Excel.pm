@@ -1,4 +1,4 @@
-package ExcelTable;
+package App::Tables::Excel;
 BEGIN { die "Your perl version is old, see README for instructions" if $] < 5.005; }
 
 use strict;
@@ -7,7 +7,7 @@ use Spreadsheet::WriteExcel;
 use Spreadsheet::ParseExcel;
 use Spreadsheet::XLSX;
 use Excel::Writer::XLSX;
-use vars qw($VERSION @ISA @EXPORT @EXPORT_OK);
+use vars qw(@ISA @EXPORT @EXPORT_OK);
 use Carp;
 
 use Exporter 'import';
@@ -21,7 +21,6 @@ use Exporter 'import';
   tables2xls xls2tables tables2xlsx xlsx2tables 
   tables_from_file
 );
-$VERSION = '0.2';
 
 sub xls2tables {
   my ($fileName, $sheetNames, $sheetIndices) = @_;
