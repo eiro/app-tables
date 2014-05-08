@@ -94,7 +94,7 @@ sub _init_file {
 }
 
 sub extension_of {
-    (shift) ~~ qr{
+    (shift) =~ qr{
         (?: (?<type> / )
             | [.] (?<type> xlsx? )
         )$
