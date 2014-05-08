@@ -55,7 +55,7 @@ sub read {
     my @headers;
     my @data = map {
         push @headers, m{ ([^/]+) $ }x; # basename
-        Data::Table::fromCSV $_ 
+        Data::Table::fromTSV $_ 
     } glob "$$self{base}/*";
     my %whole;
     @whole{ @headers } = @data;
@@ -66,7 +66,7 @@ sub write {
     my ( $self, $data ) = @_;
     map { -d $_ or io($_)->mkpath } $$self{base};
     while ( my ( $name, $sheet) = each $data ) {
-        io( "$$self{base}/$name" ) < $sheet->csv 
+        io( "$$self{base}/$name" ) < $sheet->tsv 
     }
 }
 
