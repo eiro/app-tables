@@ -72,7 +72,7 @@ sub write {
 
 package App::Tables;
 # ABSTRACT: manipulation of tables from any sources 
-our $VERSION = '0.1';
+our $VERSION = '0.2';
 
 use Modern::Perl;
 use Exporter 'import';
