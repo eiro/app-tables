@@ -1,6 +1,18 @@
 package App::Tables::Provider::xls;
 use Modern::Perl;
 require ExcelTable;
+ 
+=head1 TODO
+
+everything works fine now. need comments, tests and documentation.
+
+=head1 Contribute
+
+yes, please
+
+    https://github.com/eiro/app-tables
+
+=cut
 
 # qw< tables2xls xls2tables >;
 # qw< tables2xls xls2tables >;
