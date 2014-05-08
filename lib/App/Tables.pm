@@ -1,6 +1,6 @@
 package App::Tables::Provider::xls;
 use Modern::Perl;
-require Data::Table::Excel;
+require ExcelTable;
 
 # qw< tables2xls xls2tables >;
 # qw< tables2xls xls2tables >;
@@ -10,7 +10,11 @@ require Data::Table::Excel;
 sub new {
     my $self = pop;
     state $io =
-    { reader => Data::Table::Excel->can('xls2tables')
+    { reader => sub {
+            ExcelTable::tables_from_file
+            ( (shift)
+            , qw( format 2003 headers_are built ))
+        }
     , writer => Data::Table::Excel->can('tables2xls') }; 
     bless { %$self, %$io } , __PACKAGE__;
 }
@@ -39,7 +43,11 @@ our @ISA = 'App::Tables::Provider::xls';
 sub new {
     my $self = pop;
     state $io =
-    { reader => Data::Table::Excel->can('xlsx2tables')
+    { reader => sub {
+            ExcelTable::tables_from_file
+            ( (shift)
+            , qw( format 2007 headers_are built ))
+        }
     , writer => Data::Table::Excel->can('tables2xlsx') }; 
     bless { %$self, %$io } , __PACKAGE__;
 }
@@ -72,7 +80,7 @@ sub write {
 
 package App::Tables;
 # ABSTRACT: manipulation of tables from any sources 
-our $VERSION = '0.2';
+our $VERSION = '0.3';
 
 use Modern::Perl;
 use Exporter 'import';
