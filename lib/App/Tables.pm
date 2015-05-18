@@ -4,13 +4,26 @@ require App::Tables::Excel;
  
 =head1 TODO
 
-everything works fine now. need comments, tests and documentation.
+Even if everything works fine now, i'm not happy at all with the
+quality of the code. there will be a rewrite but:
+
+=over 4
+
+=item *
+
+not sure if perl5 (perl6 instead?)
+
+=item *
+
+would be nice to (use|be part of) a complete ETL instead. 
+
+=back
 
 =head1 Contribute
 
 yes, please
 
-    https://github.com/eiro/app-tables
+    https://github.com/eiro/app-tables 
 
 =cut
 
