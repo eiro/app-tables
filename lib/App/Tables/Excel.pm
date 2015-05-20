@@ -1,7 +1,7 @@
 package App::Tables::Excel;
-BEGIN { die "Your perl version is old, see README for instructions" if $] < 5.005; }
-
 use strict;
+use warnings;
+use 5.010;
 use Data::Table;
 use Spreadsheet::WriteExcel;
 use Spreadsheet::ParseExcel;

@@ -1,5 +1,6 @@
-use Modern::Perl;
-use YAML;
+use strict;
+use warnings;
+use 5.010;
 use App::Tables;
 use Test::More qw( tests 3 );
 

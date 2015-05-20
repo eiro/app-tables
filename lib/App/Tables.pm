@@ -1,5 +1,7 @@
 package App::Tables::Provider::xls;
-use Modern::Perl;
+use strict;
+use warnings;
+use 5.010;
 require App::Tables::Excel;
  
 =head1 TODO
@@ -30,7 +32,6 @@ yes, please
 # qw< tables2xls xls2tables >;
 # qw< tables2xls xls2tables >;
 # use Data::Table::Excel qw< tables2xls xls2tables >;
-# use Modern::Perl;
 
 sub new {
     my $self = pop;
@@ -61,7 +62,9 @@ sub write {
 
 package App::Tables::Provider::xlsx;
 require Data::Table::Excel;
-use Modern::Perl;
+use strict;
+use warnings;
+use 5.010;
 our @ISA = 'App::Tables::Provider::xls'; 
 # use parent 'App::Tables::Provider::xls';
 
@@ -78,7 +81,9 @@ sub new {
 }
 
 package App::Tables::Provider::dir;
-use Modern::Perl;
+use strict;
+use warnings;
+use 5.010;
 use IO::All;
 
 sub new { bless pop, __PACKAGE__ }
@@ -107,7 +112,9 @@ package App::Tables;
 # ABSTRACT: manipulation of tables from any sources 
 our $VERSION = '0.4';
 
-use Modern::Perl;
+use strict;
+use warnings;
+use 5.010;
 use Exporter 'import';
 our @EXPORT_OK = qw<
     init
